@@ -37,6 +37,18 @@
     </section>
 
     <div class="login-pane">
+      <div class="lang-switch login-lang" data-lang-switch data-no-i18n>
+          <button type="button" class="lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="Language / Bahasa / 语言" title="Language / Bahasa / 语言">
+            <img class="flag" data-lang-current src="flag-id.svg" alt="">
+            <span class="lang-code" data-lang-code>ID</span>
+            <span class="ms">expand_more</span>
+          </button>
+          <div class="lang-menu hidden" role="menu">
+            <button type="button" role="menuitemradio" data-lang="id"><img class="flag" src="flag-id.svg" alt=""><span>Bahasa Indonesia</span><span class="ms check-ico">check</span></button>
+            <button type="button" role="menuitemradio" data-lang="en"><img class="flag" src="flag-en.svg" alt=""><span>English</span><span class="ms check-ico">check</span></button>
+            <button type="button" role="menuitemradio" data-lang="zh"><img class="flag" src="flag-zh.svg" alt=""><span>中文</span><span class="ms check-ico">check</span></button>
+          </div>
+        </div>
       <form class="login-card" id="loginForm" autocomplete="on">
         <img src="Logo-MGR-Long-default.png" alt="Merdeka Gold Resources" class="login-logo">
         <div class="login-product"><span class="ms">verified_user</span>PANIDOS <em>PANI DOCO SYSTEM</em></div>
@@ -81,11 +93,22 @@
       <button type="button" class="nav-item active" data-view="main" data-scroll="top">
         <span class="ms">dashboard</span><span class="nav-label">Dashboard &amp; Arsip</span>
       </button>
+      <button type="button" class="nav-item" data-view="charts">
+        <span class="ms">bar_chart</span><span class="nav-label">Grafik &amp; Analitik</span>
+      </button>
       <button type="button" class="nav-item" data-view="main" data-scroll="sectionRepo">
         <span class="ms">folder_shared</span><span class="nav-label">Repositori Dokumen</span>
       </button>
+      <button type="button" class="nav-item" data-view="masterList">
+        <span class="ms">checklist_rtl</span><span class="nav-label">Master List Dokumen</span>
+      </button>
       <button type="button" class="nav-item" id="navUpload" data-need="write">
         <span class="ms">cloud_upload</span><span class="nav-label">Unggah &amp; Klasifikasi</span>
+      </button>
+
+      <div class="nav-group"><span class="nav-label">Persuratan</span></div>
+      <button type="button" class="nav-item" data-view="letters">
+        <span class="ms">mark_email_read</span><span class="nav-label">Penomoran &amp; Surat</span>
       </button>
 
       <div class="nav-group" data-need="admin"><span class="nav-label">Administrasi</span></div>
@@ -123,6 +146,18 @@
 
       <div class="topbar-right">
         <button class="icon-btn" id="btnRefresh" title="Muat ulang data" aria-label="Muat ulang data"><span class="ms">refresh</span></button>
+        <div class="lang-switch" data-lang-switch data-no-i18n>
+          <button type="button" class="lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="Language / Bahasa / 语言" title="Language / Bahasa / 语言">
+            <img class="flag" data-lang-current src="flag-id.svg" alt="">
+            <span class="lang-code" data-lang-code>ID</span>
+            <span class="ms">expand_more</span>
+          </button>
+          <div class="lang-menu hidden" role="menu">
+            <button type="button" role="menuitemradio" data-lang="id"><img class="flag" src="flag-id.svg" alt=""><span>Bahasa Indonesia</span><span class="ms check-ico">check</span></button>
+            <button type="button" role="menuitemradio" data-lang="en"><img class="flag" src="flag-en.svg" alt=""><span>English</span><span class="ms check-ico">check</span></button>
+            <button type="button" role="menuitemradio" data-lang="zh"><img class="flag" src="flag-zh.svg" alt=""><span>中文</span><span class="ms check-ico">check</span></button>
+          </div>
+        </div>
         <span class="divider-v"></span>
         <div class="user-menu" id="userMenu">
           <button type="button" class="user-chip" id="btnUser" aria-haspopup="true">
@@ -164,7 +199,7 @@
               <span>Repositori Berkas</span><span class="ms">chevron_right</span><strong>Dashboard &amp; Arsip</strong>
             </div>
             <h1>Dashboard Dokumen Arsip</h1>
-            <p>Pantau seluruh dokumen terkendali berdasarkan tipe, departemen, dan status berlakunya.</p>
+            <p>Pantau seluruh dokumen terkendali berdasarkan tipe, departemen, tahap status, dan jumlah orang tersosialisasi.</p>
           </div>
           <div class="page-actions">
             <button class="btn btn-tonal" id="btnExport"><span class="ms">download</span>Ekspor CSV</button>
@@ -178,12 +213,20 @@
             <div><span class="stat-label">Total Dokumen</span><h2 id="statTotal">0</h2></div>
           </article>
           <article class="stat-card">
-            <span class="stat-ico tone-green"><span class="ms">task_alt</span></span>
-            <div><span class="stat-label">Aktif (Berlaku)</span><h2 id="statActive">0</h2></div>
+            <span class="stat-ico tone-amber"><span class="ms">edit_note</span></span>
+            <div><span class="stat-label">Draft (Develop)</span><h2 id="statDraft">0</h2></div>
           </article>
           <article class="stat-card">
-            <span class="stat-ico tone-amber"><span class="ms">edit_note</span></span>
-            <div><span class="stat-label">Draf / Tinjauan</span><h2 id="statDraft">0</h2></div>
+            <span class="stat-ico tone-sky"><span class="ms">approval</span></span>
+            <div><span class="stat-label">Full Approved</span><h2 id="statApproved">0</h2></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-ico tone-violet"><span class="ms">groups</span></span>
+            <div><span class="stat-label">Sosialisasi</span><h2 id="statSocial">0</h2><span class="stat-sub" id="statSocialPeople">0 orang tersosialisasi</span></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-ico tone-green"><span class="ms">task_alt</span></span>
+            <div><span class="stat-label">Aktif (Berlaku)</span><h2 id="statActive">0</h2></div>
           </article>
           <article class="stat-card">
             <span class="stat-ico tone-rose"><span class="ms">inventory_2</span></span>
@@ -225,12 +268,7 @@
               </label>
               <label class="select-wrap">
                 <span class="ms">flag</span>
-                <select id="filterStatus" class="control">
-                  <option value="ALL">Semua Status</option>
-                  <option value="Active">Aktif</option>
-                  <option value="Draft">Draf</option>
-                  <option value="Obsolete">Obsolete</option>
-                </select>
+                <select id="filterStatus" class="control"><option value="ALL">Semua Status</option><option value="Draft">Draft (Develop)</option><option value="Approved">Full Approved</option><option value="Socialization">Sosialisasi</option><option value="Active">Aktif (Berlaku)</option><option value="Obsolete">Obsolete</option></select>
               </label>
             </div>
             <label class="page-size">Tampilkan
@@ -289,7 +327,355 @@
         </section>
       </div>
 
-      <!-- ========== VIEW: JEJAK AUDIT ========== -->
+
+      <!-- ========== VIEW: GRAFIK & ANALITIK ========== -->
+      <div class="view hidden" id="viewCharts">
+
+        <section class="page-head" id="sectionChartsHead">
+          <div>
+            <div class="crumbs">
+              <span>Repositori Berkas</span><span class="ms">chevron_right</span><strong>Grafik &amp; Analitik Dokumen</strong>
+            </div>
+            <h1>Grafik &amp; Visualisasi Dokumen</h1>
+            <p>Analisis visual menyeluruh seluruh dokumen terkendali: sebaran status, kepatuhan departemen, capaian sosialisasi, dan tren revisi.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-outline" id="btnChartsRefresh"><span class="ms">refresh</span>Segarkan Grafik</button>
+            <button class="btn btn-primary" id="btnChartsToRepo"><span class="ms">folder_shared</span>Buka Repositori</button>
+          </div>
+        </section>
+
+        <!-- KPI Mini Summary -->
+        <section class="stats-grid chart-kpis">
+          <article class="stat-card">
+            <span class="stat-ico tone-blue"><span class="ms">inventory_2</span></span>
+            <div><span class="stat-label">Total Dokumen</span><h2 id="kpiTotal">0</h2></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-ico tone-green"><span class="ms">verified</span></span>
+            <div><span class="stat-label">Tingkat Dokumen Aktif</span><h2 id="kpiActivePct">0%</h2><span class="stat-sub" id="kpiActiveCount">0 dokumen aktif</span></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-ico tone-violet"><span class="ms">campaign</span></span>
+            <div><span class="stat-label">Tahap Sosialisasi</span><h2 id="kpiSocialCount">0</h2><span class="stat-sub" id="kpiSocialDocPct">0% dari total</span></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-ico tone-sky"><span class="ms">groups</span></span>
+            <div><span class="stat-label">Total Tersosialisasi</span><h2 id="kpiPeopleTotal">0</h2><span class="stat-sub" id="kpiAvgPeople">Rata-rata 0 orang / dok</span></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-ico tone-amber"><span class="ms">pending_actions</span></span>
+            <div><span class="stat-label">Butuh Tindakan</span><h2 id="kpiActionCount">0</h2><span class="stat-sub">Draft &amp; Approved</span></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-ico tone-rose"><span class="ms">history_edu</span></span>
+            <div><span class="stat-label">Tingkat Revisi</span><h2 id="kpiRevPct">0%</h2><span class="stat-sub" id="kpiRevCount">Pernah direvisi</span></div>
+          </article>
+        </section>
+
+        <!-- Pipeline Siklus Dokumen -->
+        <section class="panel chart-flow-panel">
+          <div class="panel-head">
+            <h2>Alur Siklus Dokumen</h2>
+            <span class="muted">Perjalanan dokumen dari perancangan hingga arsip usang</span>
+          </div>
+          <div class="pipeline-track" id="pipelineTrack">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- Grid Grafik 2 Kolom -->
+        <div class="charts-grid">
+
+          <!-- Chart 1: Donut Status -->
+          <section class="panel chart-box">
+            <div class="panel-head">
+              <h2>Proporsi Status Dokumen</h2>
+              <span class="badge badge-neutral" id="donutTotalBadge">0 Dokumen</span>
+            </div>
+            <div class="chart-content donut-layout">
+              <div class="donut-svg-wrap" id="donutSvgWrap">
+                <!-- SVG Donut rendered by JS -->
+              </div>
+              <div class="chart-legend" id="donutLegend">
+                <!-- Legend items rendered by JS -->
+              </div>
+            </div>
+          </section>
+
+          <!-- Chart 2: Stacked Bar Dept -->
+          <section class="panel chart-box">
+            <div class="panel-head">
+              <h2>Dokumen per Departemen</h2>
+              <span class="muted" id="deptChartCount"></span>
+            </div>
+            <div class="chart-content">
+              <div class="stacked-bar-list" id="deptStackedList">
+                <!-- Stacked horizontal bars rendered by JS -->
+              </div>
+            </div>
+          </section>
+
+          <!-- Chart 3: Vertical Bar Types -->
+          <section class="panel chart-box">
+            <div class="panel-head">
+              <h2>Distribusi Tipe Dokumen</h2>
+              <span class="muted" id="typesChartCount"></span>
+            </div>
+            <div class="chart-content">
+              <div class="col-chart-wrap" id="colChartTypes">
+                <!-- Column bars rendered by JS -->
+              </div>
+            </div>
+          </section>
+
+          <!-- Chart 4: Leaderboard Sosialisasi Dept -->
+          <section class="panel chart-box">
+            <div class="panel-head">
+              <h2>Capaian Sosialisasi per Departemen</h2>
+              <span class="badge badge-social" id="socialTotalBadge">0 Orang</span>
+            </div>
+            <div class="chart-content">
+              <div class="progress-rank-list" id="socialDeptList">
+                <!-- Socialization ranking by department rendered by JS -->
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Chart 5: Top 5 Dokumen Tersosialisasi -->
+        <section class="panel chart-box">
+          <div class="panel-head">
+            <h2>Top 5 Dokumen Paling Banyak Tersosialisasi</h2>
+            <span class="muted">Dokumen dengan jangkauan pemahaman operasional tertinggi</span>
+          </div>
+          <div class="table-scroll">
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th style="width:60px;">Rank</th>
+                  <th>Dokumen</th>
+                  <th>No. Dokumen</th>
+                  <th>Departemen</th>
+                  <th>Revisi</th>
+                  <th>Status</th>
+                  <th style="text-align:right;">Jumlah Tersosialisasi</th>
+                </tr>
+              </thead>
+              <tbody id="topSocialBody">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+
+
+      <!-- ========== VIEW: MASTER LIST DOKUMEN ========== -->
+      <div class="view hidden" id="viewMasterList">
+        <section class="page-head">
+          <div>
+            <div class="crumbs"><span>Repositori Berkas</span><span class="ms">chevron_right</span><strong>Master List Dokumen</strong></div>
+            <h1>Master List &amp; Matriks Kepatuhan Dokumen</h1>
+            <p>Daftar acuan dokumen wajib per departemen &amp; section, serta pelacakan ketersediaan dokumen di repositori.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-tonal" id="btnMasterExportCsv"><span class="ms">download</span>Ekspor Matriks (CSV)</button>
+            <button class="btn btn-tonal" id="btnMasterRefresh"><span class="ms">refresh</span>Muat ulang</button>
+            <button class="btn btn-primary" id="btnOpenAddMaster" data-need="write"><span class="ms">add</span>Tambah Dokumen Master</button>
+          </div>
+        </section>
+
+        <!-- KPI Summary Cards -->
+        <section class="stats-grid master-stats-grid">
+          <article class="stat-card">
+            <span class="stat-ico tone-gold"><span class="ms">fact_check</span></span>
+            <div><span class="stat-label">Total Dokumen Wajib</span><h2 id="statMasterTotal">0</h2><span class="stat-sub muted">Target acuan regulasi</span></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-ico tone-green"><span class="ms">check_circle</span></span>
+            <div><span class="stat-label">Sudah Terupload</span><h2 id="statMasterUploaded">0</h2><span class="stat-sub ok" id="statMasterUploadedPct">0% tersedia</span></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-ico tone-amber"><span class="ms">pending</span></span>
+            <div><span class="stat-label">Belum Ada (Gap)</span><h2 id="statMasterMissing">0</h2><span class="stat-sub warn">Perlu diunggah/dibuat</span></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-ico tone-sky"><span class="ms">pie_chart</span></span>
+            <div>
+              <span class="stat-label">Tingkat Kepatuhan</span>
+              <h2 id="statMasterCompliance">0%</h2>
+              <div class="compliance-mini-bar" style="margin-top:6px;">
+                <div class="cmb-fill" id="statMasterComplianceBar" style="width:0%;"></div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <!-- Department Compliance Strip -->
+        <div class="master-dept-strip" id="masterDeptStrip"></div>
+
+        <!-- Main Panel -->
+        <section class="panel">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <label class="select-wrap">
+                <span class="ms">search</span>
+                <input class="control" id="masterSearch" placeholder="Cari judul, nomor acuan, section, keterangan...">
+              </label>
+              <label class="select-wrap">
+                <span class="ms">corporate_fare</span>
+                <select id="masterFilterDept" class="control"><option value="ALL">Semua Departemen</option></select>
+              </label>
+              <label class="select-wrap">
+                <span class="ms">account_tree</span>
+                <select id="masterFilterSection" class="control"><option value="ALL">Semua Section</option></select>
+              </label>
+              <label class="select-wrap">
+                <span class="ms">category</span>
+                <select id="masterFilterType" class="control"><option value="ALL">Semua Tipe</option></select>
+              </label>
+              <label class="select-wrap">
+                <span class="ms">filter_list</span>
+                <select id="masterFilterStatus" class="control">
+                  <option value="ALL">Semua Status Ketersediaan</option>
+                  <option value="UPLOADED">Sudah Terupload &amp; Tersedia</option>
+                  <option value="MISSING">Belum Ada / Gap (Perlu Diunggah)</option>
+                </select>
+              </label>
+            </div>
+            <span class="muted" id="masterInfo"></span>
+          </div>
+
+          <div class="table-scroll">
+            <table class="doc-table" id="masterTable">
+              <thead>
+                <tr>
+                  <th>No. Acuan</th>
+                  <th>Judul Dokumen Wajib</th>
+                  <th>Departemen &amp; Section</th>
+                  <th>Tipe</th>
+                  <th>Status di Repositori</th>
+                  <th>Dokumen Terupload</th>
+                  <th style="text-align: right;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="masterBody"></tbody>
+            </table>
+            <div id="masterEmpty" class="empty-state hidden"></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ========== VIEW: PENOMORAN & SURAT ========== -->
+      <div class="view hidden" id="viewLetters">
+        <section class="page-head">
+          <div>
+            <div class="crumbs"><span>Persuratan</span><span class="ms">chevron_right</span><strong>Penomoran &amp; Surat</strong></div>
+            <h1>Penomoran &amp; Registrasi Surat Keluar</h1>
+            <p>Penerbitan nomor surat resmi berurutan, pelacakan registrasi, dan pengunggahan berkas surat bertandatangan.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-tonal" id="btnLettersRefresh"><span class="ms">refresh</span>Muat ulang</button>
+            <button class="btn btn-primary" id="btnOpenLetterReg" data-need="write"><span class="ms">add</span>Daftarkan Nomor Surat</button>
+          </div>
+        </section>
+
+        <!-- KPI Summary Cards -->
+        <section class="stats-grid letters-stats-grid">
+          <article class="stat-card">
+            <span class="stat-ico tone-gold"><span class="ms">mark_email_read</span></span>
+            <div><span class="stat-label">Total Surat Didaftarkan</span><h2 id="statLetterTotal">0</h2></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-ico tone-amber"><span class="ms">pending_actions</span></span>
+            <div><span class="stat-label">Menunggu Upload</span><h2 id="statLetterPending">0</h2><span class="stat-sub warn">Belum diunggah berkas</span></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-ico tone-green"><span class="ms">verified</span></span>
+            <div><span class="stat-label">Tercatat &amp; Valid</span><h2 id="statLetterValid">0</h2><span class="stat-sub ok">Berkas resmi tersimpan</span></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-ico tone-sky"><span class="ms">calendar_month</span></span>
+            <div><span class="stat-label">Bulan Berjalan</span><h2 id="statLetterThisMonth">0</h2><span class="stat-sub muted" id="statLetterMonthLabel">Bulan ini</span></div>
+          </article>
+        </section>
+
+        <!-- Workflow Banner -->
+        <div class="letter-workflow-banner">
+          <div class="lwb-step">
+            <span class="lwb-num">1</span>
+            <div class="lwb-txt"><strong>Daftarkan Nomor</strong><span>Pilih entitas, jenis surat &amp; tujuan untuk klaim nomor urut</span></div>
+          </div>
+          <span class="ms lwb-arrow">arrow_forward</span>
+          <div class="lwb-step">
+            <span class="lwb-num">2</span>
+            <div class="lwb-txt"><strong>Tandatangani Surat</strong><span>Cantumkan nomor resmi pada dokumen &amp; mintakan tanda tangan</span></div>
+          </div>
+          <span class="ms lwb-arrow">arrow_forward</span>
+          <div class="lwb-step">
+            <span class="lwb-num">3</span>
+            <div class="lwb-txt"><strong>Unggah Berkas</strong><span>Unggah berkas untuk mengubah status menjadi <b>Tercatat &amp; Valid</b></span></div>
+          </div>
+        </div>
+
+        <!-- Main Panel -->
+        <section class="panel">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <label class="select-wrap">
+                <span class="ms">search</span>
+                <input class="control" id="letterSearch" placeholder="Cari nomor surat, perihal, tujuan, pemohon...">
+              </label>
+              <label class="select-wrap">
+                <span class="ms">domain</span>
+                <select id="letterFilterEntity" class="control"><option value="ALL">Semua Entitas</option></select>
+              </label>
+              <label class="select-wrap">
+                <span class="ms">category</span>
+                <select id="letterFilterType" class="control"><option value="ALL">Semua Jenis Surat</option></select>
+              </label>
+              <label class="select-wrap">
+                <span class="ms">corporate_fare</span>
+                <select id="letterFilterDept" class="control"><option value="ALL">Semua Departemen</option></select>
+              </label>
+              <label class="select-wrap">
+                <span class="ms">filter_list</span>
+                <select id="letterFilterStatus" class="control">
+                  <option value="ALL">Semua Status</option>
+                  <option value="Pending">Menunggu Upload</option>
+                  <option value="Valid">Tercatat &amp; Valid</option>
+                  <option value="Cancelled">Dibatalkan</option>
+                </select>
+              </label>
+            </div>
+            <span class="muted" id="letterInfo"></span>
+          </div>
+
+          <div class="table-scroll">
+            <table class="doc-table" id="letterTable">
+              <thead>
+                <tr>
+                  <th>No. Surat</th>
+                  <th>Entitas &amp; Dept</th>
+                  <th>Tanggal &amp; Jenis</th>
+                  <th>Perihal &amp; Tujuan</th>
+                  <th>Status</th>
+                  <th>Berkas Surat</th>
+                  <th>Pemohon</th>
+                  <th style="text-align: right;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="letterBody"></tbody>
+            </table>
+            <div id="letterEmpty" class="empty-state hidden"></div>
+          </div>
+        </section>
+      </div>
+
+            <!-- ========== VIEW: JEJAK AUDIT ========== -->
       <div class="view hidden" id="viewAudit">
         <section class="page-head">
           <div>
@@ -424,11 +810,19 @@
             <div class="field">
               <label for="upStatus">Status <b>*</b></label>
               <select id="upStatus" class="control" required>
-                <option value="Active">Aktif</option>
-                <option value="Draft">Draf</option>
+                <option value="Draft">Draft (Develop)</option>
+                <option value="Approved">Full Approved</option>
+                <option value="Socialization">Sosialisasi</option>
+                <option value="Active">Aktif (Berlaku)</option>
                 <option value="Obsolete">Obsolete</option>
               </select>
             </div>
+          </div>
+
+          <div class="field hidden" id="upSocGroup">
+            <label for="upSocialized">Jumlah orang tersosialisasi</label>
+            <input type="number" id="upSocialized" class="control" min="0" step="1" value="0" inputmode="numeric">
+            <small class="muted">Isi total karyawan/peserta yang sudah menerima sosialisasi dokumen ini.</small>
           </div>
 
           <div id="uploadAlert" class="alert hidden"></div>
@@ -472,7 +866,7 @@
               <input type="radio" name="manageMode" value="new_revision">
               <span class="mode-card">
                 <span class="ms">history</span>
-                <span><strong>Terbitkan Revisi Baru</strong><small>Unggah file baru, versi lama otomatis Obsolete &amp; tersimpan di riwayat</small></span>
+                <span><strong>Terbitkan Revisi Baru</strong><small>Unggah file baru; versi Aktif lama menjadi Obsolete saat revisi baru berstatus Aktif</small></span>
               </span>
             </label>
           </div>
@@ -505,11 +899,19 @@
             <div class="field" id="mgStatusGroup">
               <label for="mgStatus">Status <b>*</b></label>
               <select id="mgStatus" class="control">
-                <option value="Active">Aktif</option>
-                <option value="Draft">Draf</option>
+                <option value="Draft">Draft (Develop)</option>
+                <option value="Approved">Full Approved</option>
+                <option value="Socialization">Sosialisasi</option>
+                <option value="Active">Aktif (Berlaku)</option>
                 <option value="Obsolete">Obsolete</option>
               </select>
             </div>
+          </div>
+
+          <div class="field hidden" id="mgSocGroup">
+            <label for="mgSocialized">Jumlah orang tersosialisasi</label>
+            <input type="number" id="mgSocialized" class="control" min="0" step="1" value="0" inputmode="numeric">
+            <small class="muted">Perbarui angka ini setiap ada sesi sosialisasi baru.</small>
           </div>
 
           <div class="hidden" id="mgRevGroup">
@@ -688,8 +1090,322 @@
     </div>
   </div>
 
-  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+    <!-- ============ MODAL: REGISTRASI & PENOMORAN SURAT ============ -->
+  <div id="letterRegModal" class="modal-backdrop hidden">
+    <div class="modal-card modal-md" role="dialog" aria-modal="true" aria-labelledby="letterRegTitle">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="ms title-ico">mark_email_read</span>
+          <div>
+            <h3 id="letterRegTitle">Daftarkan Nomor Surat Baru</h3>
+            <p>Sistem akan menerbitkan nomor surat resmi berurutan sesuai format korporat.</p>
+          </div>
+        </div>
+        <button class="icon-btn" data-close="letterRegModal" aria-label="Tutup"><span class="ms">close</span></button>
+      </div>
 
+      <form id="letterRegForm">
+        <div class="modal-body">
+          <div class="section-label"><span class="ms">corporate_fare</span>Entitas &amp; Departemen Pemohon</div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="ltrEntity">Entitas Perusahaan <b>*</b></label>
+              <select id="ltrEntity" class="control" required></select>
+            </div>
+            <div class="field">
+              <label for="ltrDept">Departemen Pemohon <b>*</b></label>
+              <select id="ltrDept" class="control" required></select>
+            </div>
+          </div>
+
+          <div class="section-label"><span class="ms">category</span>Klasifikasi Surat &amp; Tanggal</div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="ltrType">Jenis Surat <b>*</b></label>
+              <select id="ltrType" class="control" required></select>
+            </div>
+            <div class="field">
+              <label for="ltrDate">Tanggal Surat <b>*</b></label>
+              <input type="date" id="ltrDate" class="control" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ltrRecipient">Ditujukan Kepada <b>*</b></label>
+            <input type="text" id="ltrRecipient" class="control" placeholder="Contoh: Seluruh Karyawan / Kepala Dinas ESDM / Vendor PT XYZ" required>
+          </div>
+
+          <div class="field">
+            <label for="ltrSubject">Perihal / Hal Surat <b>*</b></label>
+            <input type="text" id="ltrSubject" class="control" placeholder="Contoh: Pemberitahuan Sosialisasi Kebijakan K3 Periode Q4" required>
+          </div>
+
+          <div class="field">
+            <label for="ltrNotes">Catatan / Keterangan Tambahan</label>
+            <textarea id="ltrNotes" class="control" rows="2" placeholder="Catatan internal pengajuan nomor surat (opsional)..."></textarea>
+          </div>
+
+          <!-- Live Number Preview Box -->
+          <div class="letter-preview-box">
+            <div class="lpb-head">
+              <span class="ms">pin</span>
+              <span class="lpb-label">Pratinjau Format Nomor Surat:</span>
+            </div>
+            <div class="lpb-code" id="ltrPreviewNumber">---/MGR-SP/SHE/XI/2026</div>
+            <p class="lpb-note">* Nomor urut 3 digit (001, 002, ...) di-generate otomatis secara berurutan per tahun kalender saat disimpan.</p>
+          </div>
+
+          <div id="ltrRegAlert" class="alert hidden"></div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close="letterRegModal">Batal</button>
+          <button type="submit" id="btnSubmitLetterReg" class="btn btn-primary"><span class="ms">send</span><span class="btn-text">Terbitkan Nomor Surat</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: UNGGAH BERKAS SURAT VALID ============ -->
+  <div id="letterUploadModal" class="modal-backdrop hidden">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="letterUploadTitle">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="ms title-ico">cloud_upload</span>
+          <div>
+            <h3 id="letterUploadTitle">Unggah Berkas Surat Resmi</h3>
+            <p>Unggah berkas fisik/PDF yang telah ditandatangani untuk memvalidasi pencatatan surat.</p>
+          </div>
+        </div>
+        <button class="icon-btn" data-close="letterUploadModal" aria-label="Tutup"><span class="ms">close</span></button>
+      </div>
+
+      <form id="letterUploadForm">
+        <div class="modal-body">
+          <!-- Letter Summary Card -->
+          <div class="letter-target-card" id="ltrUploadSummary">
+            <div class="ltc-num" id="ltrUploadNum">---</div>
+            <div class="ltc-subj" id="ltrUploadSubj">---</div>
+            <div class="ltc-meta" id="ltrUploadMeta">---</div>
+          </div>
+
+          <div class="section-label"><span class="ms">attach_file</span>Berkas Surat Bertandatangan <em class="chip">Maks. 15 MB</em></div>
+          <div class="dropzone" id="ltrDrop">
+            <input type="file" id="ltrFileInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
+            <div class="drop-ico"><span class="ms">file_upload</span></div>
+            <p>Tarik dan letakkan berkas surat di sini, atau <span class="link">telusuri file lokal</span></p>
+            <small>Format didukung: PDF, DOCX, scan surat (JPG/PNG), maksimal 15 MB.</small>
+          </div>
+          <div class="file-chip hidden" id="ltrFileChip"></div>
+
+          <div class="field" style="margin-top:14px;">
+            <label for="ltrUploadNotes">Catatan / Keterangan Berkas</label>
+            <input type="text" id="ltrUploadNotes" class="control" placeholder="Contoh: Berkas asli tersimpan di Arsip SHE (opsional)">
+          </div>
+
+          <div class="letter-valid-notice">
+            <span class="ms">verified_user</span>
+            <div>
+              <strong>Ketetapan Validasi Surat:</strong>
+              <p>Setelah berkas diunggah, surat resmi berstatus <b>Tercatat &amp; Valid</b> dan berkas tersimpan aman di folder Google Drive perusahaan.</p>
+            </div>
+          </div>
+
+          <div id="ltrUploadAlert" class="alert hidden"></div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close="letterUploadModal">Batal</button>
+          <button type="submit" id="btnSubmitLetterUpload" class="btn btn-primary"><span class="ms">task_alt</span><span class="btn-text">Unggah &amp; Validasi Surat</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: SUKSES TERBIT NOMOR SURAT ============ -->
+  <div id="letterSuccessModal" class="modal-backdrop hidden">
+    <div class="modal-card modal-sm" role="dialog" aria-modal="true" aria-labelledby="letterSuccessTitle">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="ms title-ico" style="color:var(--ok);">verified</span>
+          <div>
+            <h3 id="letterSuccessTitle">Nomor Surat Berhasil Terbit!</h3>
+            <p>Nomor urut resmi telah didaftarkan ke sistem.</p>
+          </div>
+        </div>
+        <button class="icon-btn" data-close="letterSuccessModal" aria-label="Tutup"><span class="ms">close</span></button>
+      </div>
+      <div class="modal-body" style="text-align:center;">
+        <div class="letter-success-display">
+          <span class="lsd-label">NOMOR SURAT RESMI:</span>
+          <div class="lsd-number" id="ltrSuccessNumber">---</div>
+          <button type="button" class="btn btn-tonal btn-sm" id="btnCopySuccessNum" style="margin-top:8px;">
+            <span class="ms">content_copy</span><span>Salin Nomor Surat</span>
+          </button>
+        </div>
+        <p class="muted" style="margin-top:14px; font-size:12.5px; line-height:18px;">
+          Gunakan nomor resmi di atas pada kop surat. Setelah surat dicetak dan ditandatangani, segera unggah berkasnya ke sistem agar berstatus <b>Tercatat &amp; Valid</b>.
+        </p>
+      </div>
+      <div class="modal-footer" style="flex-direction:column; gap:8px;">
+        <button type="button" class="btn btn-primary" id="btnSuccessUploadNow" style="width:100%;">
+          <span class="ms">cloud_upload</span>Unggah Berkas Sekarang
+        </button>
+        <button type="button" class="btn btn-outline" data-close="letterSuccessModal" style="width:100%;">
+          Selesai (Unggah Nanti)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: BATALKAN NOMOR SURAT ============ -->
+  <div id="letterCancelModal" class="modal-backdrop hidden">
+    <div class="modal-card modal-sm" role="dialog" aria-modal="true" aria-labelledby="letterCancelTitle">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="ms title-ico" style="color:var(--bad);">cancel</span>
+          <div>
+            <h3 id="letterCancelTitle">Batalkan Nomor Surat</h3>
+            <p>Tindakan ini akan menandai status surat sebagai Dibatalkan.</p>
+          </div>
+        </div>
+        <button class="icon-btn" data-close="letterCancelModal" aria-label="Tutup"><span class="ms">close</span></button>
+      </div>
+      <form id="letterCancelForm">
+        <div class="modal-body">
+          <p id="ltrCancelText" style="margin-bottom:12px; font-weight:500;"></p>
+          <div class="field">
+            <label for="ltrCancelReason">Alasan Pembatalan <b>*</b></label>
+            <input type="text" id="ltrCancelReason" class="control" placeholder="Contoh: Kesalahan perihal / tidak jadi diterbitkan" required>
+          </div>
+          <div id="ltrCancelAlert" class="alert hidden"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close="letterCancelModal">Kembali</button>
+          <button type="submit" class="btn btn-danger" id="btnSubmitLetterCancel"><span class="ms">block</span>Batalkan Nomor</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: HAPUS SURAT (ADMIN) ============ -->
+  <div id="letterDeleteModal" class="modal-backdrop hidden">
+    <div class="modal-card modal-sm" role="alertdialog" aria-modal="true" aria-labelledby="ltrDelTitle">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="ms title-ico" style="color:var(--bad);">delete</span>
+          <div>
+            <h3 id="ltrDelTitle">Hapus Data Surat</h3>
+            <p>Tindakan permanen oleh Administrator.</p>
+          </div>
+        </div>
+        <button class="icon-btn" data-close="letterDeleteModal" aria-label="Tutup"><span class="ms">close</span></button>
+      </div>
+      <div class="modal-body">
+        <p id="ltrDelText"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-close="letterDeleteModal">Batal</button>
+        <button type="button" class="btn btn-danger" id="btnConfirmDeleteLetter"><span class="ms">delete</span>Hapus Permanen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: KELOLA MASTER LIST DOKUMEN ============ -->
+  <div id="masterModal" class="modal-backdrop hidden">
+    <div class="modal-card modal-md" role="dialog" aria-modal="true" aria-labelledby="masterModalTitle">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="ms title-ico">checklist_rtl</span>
+          <div>
+            <h3 id="masterModalTitle">Tambah Dokumen Master</h3>
+            <p>Tetapkan dokumen wajib yang harus dimiliki per departemen &amp; section.</p>
+          </div>
+        </div>
+        <button class="icon-btn" data-close="masterModal" aria-label="Tutup"><span class="ms">close</span></button>
+      </div>
+
+      <form id="masterForm">
+        <input type="hidden" id="mlId">
+        <div class="modal-body">
+          <div class="section-label"><span class="ms">corporate_fare</span>Departemen &amp; Section / Bagian</div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="mlDept">Departemen <b>*</b></label>
+              <select id="mlDept" class="control" required></select>
+            </div>
+            <div class="field">
+              <label for="mlSection">Section / Bagian <b>*</b></label>
+              <input type="text" id="mlSection" class="control" placeholder="Contoh: K3 Operasi / Pit Operation / Personalia" required>
+            </div>
+          </div>
+
+          <div class="section-label"><span class="ms">description</span>Detail &amp; Klasifikasi Dokumen</div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="mlDocType">Tipe Dokumen <b>*</b></label>
+              <select id="mlDocType" class="control" required></select>
+            </div>
+            <div class="field">
+              <label for="mlDocNumber">Nomor Dokumen Acuan (Rencana)</label>
+              <input type="text" id="mlDocNumber" class="control" placeholder="Contoh: SOP-SHE-001 (opsional)">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="mlTitle">Judul / Nama Dokumen Wajib <b>*</b></label>
+            <input type="text" id="mlTitle" class="control" placeholder="Contoh: Prosedur Investigasi &amp; Pelaporan Insiden Tambang" required>
+          </div>
+
+          <div class="field">
+            <label for="mlDesc">Keterangan / Dasar Regulasi / Kepatuhan</label>
+            <input type="text" id="mlDesc" class="control" placeholder="Contoh: Wajib Kepmen ESDM 1827 K / Audit SMKP">
+          </div>
+
+          <div class="field">
+            <label class="check" style="margin-top:4px;">
+              <input type="checkbox" id="mlMandatory" checked>
+              <span>Dokumen Wajib (Mandatory Kepatuhan / Regulasi)</span>
+            </label>
+          </div>
+
+          <div id="mlAlert" class="alert hidden"></div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close="masterModal">Batal</button>
+          <button type="submit" id="btnSubmitMaster" class="btn btn-primary"><span class="ms">save</span><span class="btn-text">Simpan Dokumen Master</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: HAPUS DOKUMEN MASTER (ADMIN) ============ -->
+  <div id="masterDeleteModal" class="modal-backdrop hidden">
+    <div class="modal-card modal-sm" role="alertdialog" aria-modal="true" aria-labelledby="mlDelTitle">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="ms title-ico" style="color:var(--bad);">delete</span>
+          <div>
+            <h3 id="mlDelTitle">Hapus Dokumen Master</h3>
+            <p>Tindakan permanen oleh Administrator.</p>
+          </div>
+        </div>
+        <button class="icon-btn" data-close="masterDeleteModal" aria-label="Tutup"><span class="ms">close</span></button>
+      </div>
+      <div class="modal-body">
+        <p id="mlDelText"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-close="masterDeleteModal">Batal</button>
+        <button type="button" class="btn btn-danger" id="btnConfirmDeleteMaster"><span class="ms">delete</span>Hapus</button>
+      </div>
+    </div>
+  </div>
+
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+  <script src="i18n.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
