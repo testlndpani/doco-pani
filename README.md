@@ -52,8 +52,21 @@ Halaman terpisah **Penomoran & Surat** mengatur siklus tertib administrasi persu
 3. **Status Awal (Menunggu Upload / Pending)**: Nomor surat telah dipesan/didaftarkan tetapi belum sah sebagai surat resmi yang berlaku.
 4. **Validasi & Unggah Berkas**: Setelah surat fisik dicetak, dibubuhi nomor, dan ditandatangani, pengguna wajib mengunggah berkas (PDF / Docx / Scan) ke sistem.
    - Berkas otomatis tersimpan di folder Google Drive: `PANIDOS/Surat_Keluar/[KodeEntitas]/[Tahun]/`.
+   - Nama file di Google Drive distandarisasi otomatis sesuai form: `[Nomor Surat] - [Perihal].[ekstensi]`.
    - Status surat resmi berubah menjadi **Tercatat & Valid**.
 5. Dilengkapi papan statistik KPI (Total, Menunggu Upload, Tercatat & Valid, Bulan Berjalan), fitur 1-klik salin nomor surat, filter multi-kriteria, pembatalan nomor surat, dan jejak audit otomatis.
+
+## Standarisasi Penamaan File & Struktur Google Drive
+Semua file yang diunggah ke PANIDOS tidak lagi menggunakan nama file mentah dari laptop pengguna, melainkan **diberi nama resmi secara otomatis sesuai inputan form**:
+1. **Dokumen Repository (SOP / WI / Formulir / Kebijakan)**:
+   - **Format Nama File**: `[Nomor Dokumen] - [Judul Dokumen] (Rev.[Revisi]).[ekstensi]`
+   - **Contoh**: `MCG-HSE-SOP-001 - Prosedur K3 Hauling (Rev.00).pdf`
+   - **Lokasi Folder**: `PANIDOS / [Departemen] / [Tipe Dokumen] /` (Contoh: `PANIDOS/SHE/SOP/`)
+   - *Catatan*: Jika Judul atau Revisi diedit melalui menu Kelola, nama file di Google Drive otomatis di-rename agar selalu sinkron.
+2. **Surat Keluar / Pemberitahuan**:
+   - **Format Nama File**: `[Nomor Surat] - [Perihal].[ekstensi]` (karakter `/` otomatis diganti `_`)
+   - **Contoh**: `001_GSM-SHE-MEMO_XI_2026 - Sosialisasi APD Tambang.pdf`
+   - **Lokasi Folder**: `PANIDOS / Surat_Keluar / [Kode Entitas] / [Tahun] /` (Contoh: `PANIDOS/Surat_Keluar/GSM/2026/`)
 
 ## Status dokumen
 | Status | Arti |

@@ -441,18 +441,23 @@ function renderTable() {
       <td class="td-doc" data-label="Dokumen">
         <div class="doc-cell">
           <span class="file-ico ${extClass(ext)}"><span class="ms">${extIcon(ext)}</span></span>
-          <span>
-            <span class="doc-title">${escapeHTML(doc.title)}</span>
-            <span class="doc-filename">${escapeHTML(doc.fileName)}</span>
-          </span>
+          <div class="doc-text-wrap">
+            <span class="doc-title" title="${escapeHTML(doc.title)}">${escapeHTML(doc.title)}</span>
+            <span class="doc-filename" title="${escapeHTML(doc.fileName)}">${escapeHTML(doc.fileName)}</span>
+          </div>
         </div>
       </td>
-      <td data-label="No. Dokumen"><span class="doc-code">${escapeHTML(doc.docNumber)}</span></td>
-      <td data-label="Tipe"><span class="type-tag">${escapeHTML(doc.docType)}</span></td>
-      <td data-label="Departemen"><span title="${escapeHTML(deptName(doc.department))}">${escapeHTML(deptKey(doc.department))}</span></td>
-      <td data-label="Revisi" class="nowrap">${escapeHTML(doc.revision)}</td>
-      <td data-label="Diperbarui"><span class="nowrap">${escapeHTML(when)}</span>${who ? `<span class="doc-filename">oleh ${escapeHTML(who)}</span>` : ''}</td>
-      <td data-label="Status"><span class="badge ${getStatusBadgeClass(doc.status)}">${escapeHTML(STATUS_LABEL[doc.status] || doc.status)}</span>${socBadge(doc)}</td>
+      <td data-label="No. Dokumen"><span class="doc-code" title="${escapeHTML(doc.docNumber)}">${escapeHTML(doc.docNumber)}</span></td>
+      <td data-label="Tipe" class="td-center"><span class="type-tag">${escapeHTML(doc.docType)}</span></td>
+      <td data-label="Departemen" class="td-center"><span class="dept-badge" title="${escapeHTML(deptName(doc.department))}">${escapeHTML(deptKey(doc.department))}</span></td>
+      <td data-label="Revisi" class="nowrap td-center"><span class="rev-badge">${escapeHTML(doc.revision)}</span></td>
+      <td data-label="Diperbarui">
+        <div class="update-cell">
+          <span class="nowrap update-date">${escapeHTML(when)}</span>
+          ${who ? `<span class="update-by" title="${escapeHTML(who)}">oleh ${escapeHTML(who)}</span>` : ''}
+        </div>
+      </td>
+      <td data-label="Status" class="td-center"><span class="badge ${getStatusBadgeClass(doc.status)}">${escapeHTML(STATUS_LABEL[doc.status] || doc.status)}</span>${socBadge(doc)}</td>
       <td class="td-actions">
         <div class="action-group">
           <button class="act" data-act="preview" data-id="${escapeHTML(doc.id)}" title="Pratinjau" aria-label="Pratinjau"><span class="ms">visibility</span></button>
