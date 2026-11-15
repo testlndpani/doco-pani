@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -747,6 +747,34 @@
             </table>
           </div>
         </section>
+
+        <!-- Master Entitas Perusahaan -->
+        <section class="panel">
+          <div class="panel-head">
+            <div><h2>Entitas Perusahaan</h2><p class="muted">Master entitas korporat untuk penomoran surat resmi (MGR, PBJ, PETS, GSM, dll.)</p></div>
+            <button class="btn btn-primary btn-sm" id="btnAddEntity"><span class="ms">domain_add</span>Tambah Entitas</button>
+          </div>
+          <div class="table-scroll">
+            <table class="doc-table">
+              <thead><tr><th>Kode Entitas</th><th>Nama Entitas / Perusahaan</th><th>Status</th><th class="th-actions">Aksi</th></tr></thead>
+              <tbody id="entityBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Master Jenis Surat -->
+        <section class="panel">
+          <div class="panel-head">
+            <div><h2>Jenis Surat Keluar</h2><p class="muted">Master klasifikasi jenis surat resmi (SP, SE, ST, SK, IM, EXT, BA, UND, dll.)</p></div>
+            <button class="btn btn-primary btn-sm" id="btnAddLetterType"><span class="ms">add</span>Tambah Jenis Surat</button>
+          </div>
+          <div class="table-scroll">
+            <table class="doc-table">
+              <thead><tr><th>Kode Jenis</th><th>Nama Jenis Surat</th><th>Status</th><th class="th-actions">Aksi</th></tr></thead>
+              <tbody id="letterTypeBody"></tbody>
+            </table>
+          </div>
+        </section>
       </div>
 
       <footer class="foot">
@@ -1065,6 +1093,74 @@
     </div>
   </div>
 
+  <!-- ============ MODAL: ENTITAS PERUSAHAAN ============ -->
+  <div id="entityModal" class="modal-backdrop hidden">
+    <div class="modal-card modal-sm" role="dialog" aria-modal="true" aria-labelledby="entityModalTitle">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="ms title-ico">domain</span>
+          <div><h3 id="entityModalTitle">Tambah Entitas</h3><p>Kode entitas dipakai pada format nomor surat resmi.</p></div>
+        </div>
+        <button class="icon-btn" data-close="entityModal" aria-label="Tutup"><span class="ms">close</span></button>
+      </div>
+      <form id="entityForm" autocomplete="off">
+        <div class="modal-body">
+          <div class="field">
+            <label for="entCode">Kode Entitas <b>*</b></label>
+            <input class="control" id="entCode" maxlength="12" placeholder="Contoh: MGR / PBJ / PETS" required>
+          </div>
+          <div class="field">
+            <label for="entName">Nama Entitas Perusahaan <b>*</b></label>
+            <input class="control" id="entName" placeholder="Contoh: PT Pani Bersama Jaya" required>
+          </div>
+          <div class="field">
+            <label for="entActive">Status</label>
+            <select class="control" id="entActive"><option value="true">Aktif</option><option value="false">Nonaktif</option></select>
+          </div>
+          <div id="entityAlert" class="alert hidden"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close="entityModal">Batal</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmitEntity"><span class="ms">save</span><span class="btn-text">Simpan</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: JENIS SURAT ============ -->
+  <div id="letterTypeModal" class="modal-backdrop hidden">
+    <div class="modal-card modal-sm" role="dialog" aria-modal="true" aria-labelledby="ltrTypeModalTitle">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="ms title-ico">category</span>
+          <div><h3 id="ltrTypeModalTitle">Tambah Jenis Surat</h3><p>Kode jenis surat dipakai pada format nomor surat resmi.</p></div>
+        </div>
+        <button class="icon-btn" data-close="letterTypeModal" aria-label="Tutup"><span class="ms">close</span></button>
+      </div>
+      <form id="letterTypeForm" autocomplete="off">
+        <div class="modal-body">
+          <div class="field">
+            <label for="ltCode">Kode Jenis Surat <b>*</b></label>
+            <input class="control" id="ltCode" maxlength="12" placeholder="Contoh: SP / SE / SK / IM" required>
+          </div>
+          <div class="field">
+            <label for="ltName">Nama Jenis Surat <b>*</b></label>
+            <input class="control" id="ltName" placeholder="Contoh: Surat Pemberitahuan" required>
+          </div>
+          <div class="field">
+            <label for="ltActive">Status</label>
+            <select class="control" id="ltActive"><option value="true">Aktif</option><option value="false">Nonaktif</option></select>
+          </div>
+          <div id="letterTypeAlert" class="alert hidden"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close="letterTypeModal">Batal</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmitLetterType"><span class="ms">save</span><span class="btn-text">Simpan</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- ============ MODAL: UBAH PASSWORD ============ -->
   <div id="pwModal" class="modal-backdrop hidden">
     <div class="modal-card modal-sm" role="dialog" aria-modal="true" aria-labelledby="pwTitle">
@@ -1336,7 +1432,7 @@
             </div>
             <div class="field">
               <label for="mlSection">Section / Bagian <b>*</b></label>
-              <input type="text" id="mlSection" class="control" placeholder="Contoh: K3 Operasi / Pit Operation / Personalia" required>
+              <input type="text" id="mlSection" list="sectionDatalist" class="control" placeholder="Ketik section baru atau pilih yang sudah ada..." required><datalist id="sectionDatalist"></datalist>
             </div>
           </div>
 

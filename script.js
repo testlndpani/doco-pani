@@ -26,7 +26,9 @@ const ACTION_META = {
   LETTER_CANCEL:   { label: 'Batalkan surat',         icon: 'cancel',          cls: 'badge-obsolete' },
   LETTER_DELETE:   { label: 'Hapus surat',            icon: 'delete',          cls: 'badge-obsolete' },
   MASTER_SAVE:     { label: 'Kelola dokumen master',  icon: 'checklist',       cls: 'badge-info' },
-  MASTER_DELETE:   { label: 'Hapus dokumen master',   icon: 'delete',          cls: 'badge-obsolete' }
+  MASTER_DELETE:   { label: 'Hapus dokumen master',   icon: 'delete',          cls: 'badge-obsolete' },
+  ENTITY_SAVE:     { label: 'Kelola entitas',         icon: 'domain',          cls: 'badge-info' },
+  LETTER_TYPE_SAVE:{ label: 'Kelola jenis surat',     icon: 'category',        cls: 'badge-info' }
 };
 
 // ---------- State ----------
@@ -878,10 +880,17 @@ function renderAudit() {
 async function loadUsers() {
   try {
     const r = await api('users_list');
-    if (r.status === 'success') { state.users = r.users; renderUsers(); }
+    if (r.status === 'success') {
+      state.users = r.users || [];
+      if (r.entities) state.letterEntities = r.entities;
+      if (r.letterTypes) state.letterTypes = r.letterTypes;
+      renderUsers();
+    }
     else if (r.code !== 'AUTH') showToast(r.message, 'err');
   } catch (err) { showToast('Gagal memuat pengguna.', 'err'); }
   renderDeptTable();
+  renderEntityTable();
+  renderLetterTypeTable();
 }
 
 function deptLabels(u) {
@@ -930,6 +939,112 @@ function renderDeptTable() {
 $('deptBody').addEventListener('click', (e) => {
   const b = e.target.closest('[data-dept-edit]');
   if (b) openDeptModal(state.depts.find(d => d.code === b.dataset.deptEdit));
+});
+
+// Master Entitas Perusahaan
+function renderEntityTable() {
+  if (!$('entityBody')) return;
+  const entities = state.letterEntities || [];
+  $('entityBody').innerHTML = entities.map(e => `
+    <tr>
+      <td data-label="Kode Entitas"><span class="doc-code">${escapeHTML(e.code)}</span></td>
+      <td data-label="Nama Entitas / Perusahaan"><strong>${escapeHTML(e.name)}</strong></td>
+      <td data-label="Status"><span class="badge ${e.active !== false ? 'badge-active' : 'badge-obsolete'}">${e.active !== false ? 'Aktif' : 'Nonaktif'}</span></td>
+      <td class="td-actions"><div class="action-group">
+        <button class="act" data-entity-edit="${escapeHTML(e.code)}" title="Edit entitas" aria-label="Edit entitas"><span class="ms">edit</span></button>
+      </div></td>
+    </tr>`).join('') || '<tr><td colspan="4" class="muted">Belum ada entitas perusahaan.</td></tr>';
+}
+$('entityBody').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-entity-edit]');
+  if (b) openEntityModal(state.letterEntities.find(ent => ent.code === b.dataset.entityEdit));
+});
+
+$('btnAddEntity').addEventListener('click', () => openEntityModal(null));
+
+function openEntityModal(ent) {
+  $('entityForm').reset();
+  hideAlert($('entityAlert'));
+  $('entityModalTitle').textContent = ent ? 'Edit Entitas' : 'Tambah Entitas Baru';
+  $('entCode').value = ent ? ent.code : '';
+  $('entCode').readOnly = !!ent;
+  $('entName').value = ent ? ent.name : '';
+  $('entActive').value = (ent && ent.active === false) ? 'false' : 'true';
+  $('entityModal').classList.remove('hidden');
+}
+
+$('entityForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = $('btnSubmitEntity');
+  const alertEl = $('entityAlert');
+  hideAlert(alertEl);
+  setBusy(btn, true, 'Menyimpan...');
+  try {
+    const r = await api('entity_save', {
+      code: $('entCode').value.trim(),
+      name: $('entName').value.trim(),
+      active: $('entActive').value === 'true'
+    });
+    if (r.status === 'success') {
+      $('entityModal').classList.add('hidden');
+      showToast(r.message, 'ok');
+      await loadUsers();
+    } else if (r.code !== 'AUTH') showAlert(alertEl, r.message, 'error');
+  } catch (err) { showAlert(alertEl, 'Gagal menyimpan entitas.', 'error'); }
+  finally { setBusy(btn, false, 'Simpan'); }
+});
+
+// Master Jenis Surat
+function renderLetterTypeTable() {
+  if (!$('letterTypeBody')) return;
+  const types = state.letterTypes || [];
+  $('letterTypeBody').innerHTML = types.map(t => `
+    <tr>
+      <td data-label="Kode Jenis"><span class="doc-code">${escapeHTML(t.code)}</span></td>
+      <td data-label="Nama Jenis Surat"><strong>${escapeHTML(t.name)}</strong></td>
+      <td data-label="Status"><span class="badge ${t.active !== false ? 'badge-active' : 'badge-obsolete'}">${t.active !== false ? 'Aktif' : 'Nonaktif'}</span></td>
+      <td class="td-actions"><div class="action-group">
+        <button class="act" data-lt-edit="${escapeHTML(t.code)}" title="Edit jenis surat" aria-label="Edit jenis surat"><span class="ms">edit</span></button>
+      </div></td>
+    </tr>`).join('') || '<tr><td colspan="4" class="muted">Belum ada jenis surat.</td></tr>';
+}
+$('letterTypeBody').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-lt-edit]');
+  if (b) openLetterTypeModal(state.letterTypes.find(lt => lt.code === b.dataset.ltEdit));
+});
+
+$('btnAddLetterType').addEventListener('click', () => openLetterTypeModal(null));
+
+function openLetterTypeModal(lt) {
+  $('letterTypeForm').reset();
+  hideAlert($('letterTypeAlert'));
+  $('ltrTypeModalTitle').textContent = lt ? 'Edit Jenis Surat' : 'Tambah Jenis Surat Baru';
+  $('ltCode').value = lt ? lt.code : '';
+  $('ltCode').readOnly = !!lt;
+  $('ltName').value = lt ? lt.name : '';
+  $('ltActive').value = (lt && lt.active === false) ? 'false' : 'true';
+  $('letterTypeModal').classList.remove('hidden');
+}
+
+$('letterTypeForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = $('btnSubmitLetterType');
+  const alertEl = $('letterTypeAlert');
+  hideAlert(alertEl);
+  setBusy(btn, true, 'Menyimpan...');
+  try {
+    const r = await api('letter_type_save', {
+      code: $('ltCode').value.trim(),
+      name: $('ltName').value.trim(),
+      active: $('ltActive').value === 'true'
+    });
+    if (r.status === 'success') {
+      $('letterTypeModal').classList.add('hidden');
+      showToast(r.message, 'ok');
+      await loadUsers();
+    } else if (r.code !== 'AUTH') showAlert(alertEl, r.message, 'error');
+  } catch (err) { showAlert(alertEl, 'Gagal menyimpan jenis surat.', 'error'); }
+  finally { setBusy(btn, false, 'Simpan'); }
 });
 
 // ----- Modal pengguna -----
@@ -2249,6 +2364,12 @@ function openMasterModal(item) {
   $('mlDocType').innerHTML = state.types.map(t =>
     `<option value="${escapeHTML(t.code)}">${escapeHTML(t.code)} - ${escapeHTML(t.name)}</option>`
   ).join('');
+
+  // Populate section datalist suggestions from existing master list
+  const curSections = [...new Set(state.masterList.map(m => m.section).filter(Boolean))].sort();
+  if ($('sectionDatalist')) {
+    $('sectionDatalist').innerHTML = curSections.map(s => `<option value="${escapeHTML(s)}"></option>`).join('');
+  }
 
   if (item) {
     // Mode Edit

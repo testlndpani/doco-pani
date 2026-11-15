@@ -510,7 +510,21 @@
     ['Hapus Dokumen Master', 'Delete Master Document', '删除主控文档'],
     ['Matriks Master List berhasil diekspor.', 'Master List matrix exported successfully.', '主控文档合规矩阵已成功导出。'],
     ['Kelola dokumen master', 'Manage master documents', '管理主控文档'],
-    ['Hapus dokumen master', 'Delete master document', '删除主控文档']
+    ['Hapus dokumen master', 'Delete master document', '删除主控文档'],
+
+    // ---------- Master Entitas & Jenis Surat ----------
+    ['Tambah Entitas', 'Add Entity', '添加发函实体'],
+    ['Tambah Entitas Baru', 'Add New Entity', '添加新发函实体'],
+    ['Edit Entitas', 'Edit Entity', '修改发函实体'],
+    ['Kode Entitas', 'Entity Code', '实体代码'],
+    ['Nama Entitas / Perusahaan', 'Entity / Company Name', '实体/公司名称'],
+    ['Tambah Jenis Surat', 'Add Letter Type', '添加公文类型'],
+    ['Tambah Jenis Surat Baru', 'Add New Letter Type', '添加新公文类型'],
+    ['Edit Jenis Surat', 'Edit Letter Type', '修改公文类型'],
+    ['Kode Jenis', 'Type Code', '类型代码'],
+    ['Nama Jenis Surat', 'Letter Type Name', '公文类型名称'],
+    ['Kelola entitas', 'Manage entities', '管理发函实体'],
+    ['Kelola jenis surat', 'Manage letter types', '管理公文类型']
   ];
 
   // ---------- Indeks kamus ----------
